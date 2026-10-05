@@ -96,7 +96,8 @@ just the code layer:
 | Auth: login, register, register/owner, register/hotel | **Built** from Stitch screen `414cc749887a4a6fbe5acfcba6b7cfbf` ("Sign In & Registration - Annorent") — one split-screen shell (form card left, trust panel right) serving all four routes, with the reference's `Sign In` / `Create Account` / `Pro & Hospitality` tabs. |
 | Auth: forgot-password, reset-password, verify-email | **Built by derivation** — no Stitch screen exists for these; they reuse the same `AuthShell` with the account tabs hidden. See "Deriving the undesigned auth routes" below. |
 | Public/marketing (remaining routes above) | Fully prompted in `annorent-stitch-prompts.md` |
-| Tenant, Owner, Hotel Owner, Admin sections | **Not yet designed** — next Stitch pass after public/marketing ships |
+| Owner `/owner` dashboard | **Built by derivation** — no Stitch screen was reachable for it; composition follows the established dashboard pattern (stat row → listings table → activity feed → role sidebar). |
+| Tenant, Hotel Owner, Admin sections | **Not yet designed** — next Stitch pass after public/marketing ships |
 
 **Inert controls on the four browse pages.** Every filter, sort, chip, chip-removal,
 quick-filter, date/guest field, and pagination control is rendered with the

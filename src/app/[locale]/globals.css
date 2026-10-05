@@ -127,6 +127,27 @@
   --color-inverse-surface: #1d3052;
   --color-inverse-on-surface: #edf0ff;
 
+  /* ---- Status colours ----
+     `context/ui-context.md` fixes the mapping — Verified/Confirmed/Available ->
+     success, Pending/awaiting-review -> pending, Locked/Cancelled/Suspended ->
+     locked — and required "one muted amber" for pending without ever naming it.
+     These are that pick.
+
+     All three are text-safe: measured >= 4.5:1 against both
+     `--color-surface-container-lowest` (#ffffff) and the `--color-surface-container`
+     (#e8edff) pill tint used by `ui/badge.tsx`, so a status pill needs no bespoke
+     dark background.
+
+     The brand green #36B373 from the design system is deliberately NOT a token
+     here. Measured it is 2.67:1 on white — it fails WCAG AA as text and as a
+     fill under white text — so it stays reserved for non-text decoration (icons,
+     chart marks) where the text-contrast rule does not apply.
+     `--color-tertiary-container` (#006844, 6.85:1 with white) remains the green
+     that can carry white text. */
+  --color-success: #1c7a4f;
+  --color-pending: #8a5a00;
+  --color-locked: #5f6470;
+
   /* ---- Shape & spacing ---- */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;

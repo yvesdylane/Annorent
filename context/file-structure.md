@@ -190,6 +190,9 @@ annorent-web/
 │   │   │   ├── appointment-list.tsx
 │   │   │   └── saved-listings-grid.tsx
 │   │   ├── owner/
+│   │   │   ├── owner-dashboard.tsx        # /owner body: stat row + listings + activity
+│   │   │   ├── dashboard-stat-card.tsx    # One labelled metric — moves to ui/ on a 2nd role's use (rule 2)
+│   │   │   ├── dashboard-activity-feed.tsx # Recent bookings/payments/messages
 │   │   │   ├── listing-table.tsx
 │   │   │   ├── property-form.tsx
 │   │   │   └── availability-calendar.tsx
@@ -287,6 +290,9 @@ annorent-web/
 │   │   ├── rentals.ts               # /rentals workspace cards, categories, billing
 │   │   ├── hotels.ts                # /hotels cards, destinations, quick filters
 │   │   └── map.ts                   # /map listings, pins, clusters, rent bounds, inert list
+│   ├── owner/                       # Property-owner dashboard content
+│   │   ├── dashboard.ts             # /owner stats, listings, activity
+│   │   └── navigation.ts            # Owner sidebar labels + hrefs
 │   ├── server/
 │   │   ├── session.ts
 │   │   ├── locale.ts
@@ -295,8 +301,10 @@ annorent-web/
 │   ├── assets/
 │   │   └── images/
 │   └── tests/
+│       ├── setup.ts              # Vitest setup: jest-dom matchers
 │       ├── test-utils.tsx
 │       └── mock-api.ts
+├── docs/                          # superpowers plans and specs
 ├── .env.example
 ├── AGENTS.md
 ├── CLAUDE.md
@@ -487,6 +495,13 @@ content — requires something valid in them:
   file. If a future version needs a config file again (custom content globs,
   plugins), add it back deliberately with real content, not as an empty
   placeholder.
+- **Status colours live in `globals.css`, not in a component.** `ui-context.md`
+  fixes the mapping but deliberately left the amber unpicked; it is now
+  `--color-pending: #8a5a00`, alongside `--color-success: #1c7a4f` and
+  `--color-locked: #5f6470`. All three clear 4.5:1 as text on white and on the
+  `--color-surface-container` pill tint. The brand green `#36B373` is **not** a
+  token: measured at 2.67:1 on white it fails WCAG AA for text and under white
+  text, so it stays decoration-only (icons, chart marks).
 - **`src/app/` vs. a root-level `app/`:** this project uses the `src/` layout,
   exclusively. If a fresh `create-next-app` run (or a teammate's local setup)
   ever regenerates a root-level `app/`, consolidate into `src/app/` and delete

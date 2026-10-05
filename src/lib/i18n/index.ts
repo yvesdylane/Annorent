@@ -11,7 +11,9 @@
  */
 
 import { auth, type AuthKey } from "./messages/auth";
+import { common, type CommonKey } from "./messages/common";
 import { marketing, type MarketingKey } from "./messages/marketing";
+import { owner, type OwnerKey } from "./messages/owner";
 
 export const locales = ["en", "fr", "pt", "ar", "sw"] as const;
 
@@ -56,6 +58,8 @@ type PartialLocaleMessages = { [K in Locale]?: MessageTable };
 const messages = {
   auth: auth as unknown as PartialLocaleMessages,
   marketing: marketing as unknown as PartialLocaleMessages,
+  owner: owner as unknown as PartialLocaleMessages,
+  common: common as unknown as PartialLocaleMessages,
 } satisfies Record<string, PartialLocaleMessages>;
 
 export type Namespace = keyof typeof messages;
@@ -71,4 +75,4 @@ export function t(locale: Locale, namespace: Namespace, key: string): string {
   );
 }
 
-export type { AuthKey, MarketingKey };
+export type { AuthKey, CommonKey, MarketingKey, OwnerKey };
