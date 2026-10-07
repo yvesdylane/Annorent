@@ -1,136 +1,195 @@
-import type { OwnerActivity, OwnerProperty, OwnerStat } from "@/lib/domain/property";
-
 /**
- * Static owner-dashboard content.
+ * Static owner-dashboard content — `/[locale]/owner`.
  *
- * Owns: the mock records the `/[locale]/owner` dashboard renders before the Core
- * API exists. The shapes mirror the API response, so replacing this with a fetch
- * is a change to this file only — the same seam `src/lib/marketing/home.ts` uses
- * for the public site (see file-structure.md §3).
+ * Owns: the mock records the owner dashboard renders before the Core API exists,
+ * rebuilt against the owner-portal reference screen. The shapes mirror what the
+ * API will return, so replacing this with a fetch is a change to this file only —
+ * the same seam `src/lib/marketing/home.ts` uses for the public site (see
+ * file-structure.md §3).
  * Does not own: any real authorization or ownership check. Every record here
  * belongs to one hard-coded owner id; the real per-owner scoping is server-side
  * in the Core API (`context/security.md` §RBAC), never in this file.
  *
- * `updatedAtIso` / `occurredAtIso` are fixed absolute instants rather than
- * offsets from "now", so a rendered dashboard does not churn between requests.
- * The relative-time formatter is called with an explicit `now` for the same
- * reason.
+ * `labelKey` values must resolve in the `owner` i18n namespace —
+ * `owner-messages.test.ts` fails the build otherwise.
  */
 
-export const OWNER_STATS: readonly OwnerStat[] = [
-  { id: "active", labelKey: "owner.dashboard.stats.active", kind: "count", icon: "home_work", value: 6 },
-  { id: "pending", labelKey: "owner.dashboard.stats.pending", kind: "count", icon: "hourglass_top", value: 2 },
-  { id: "occupancy", labelKey: "owner.dashboard.stats.occupancy", kind: "count", icon: "donut_large", value: 78, unit: "percent" },
-  { id: "revenue", labelKey: "owner.dashboard.stats.revenue", kind: "money", icon: "payments", valueCfa: 8400000 },
-];
+export type OwnerStatCard = {
+  id: string;
+  /** Key into the `owner` i18n namespace. */
+  labelKey: string;
+  kind: "count" | "money";
+  /** Material Symbols ligature name. */
+  icon: string;
+  /** Burst in the card corner, echoing the icon tone. */
+  accent: "primary" | "secondary" | "tertiary";
+  /** Badge in the card header (e.g. "+2 this month"). */
+  chip: string;
+  chipIcon?: string;
+  /** The headline number. */
+  value: number;
+  /** Headline unit suffix, e.g. "Properties", "Inquiries", "FCFA". */
+  unit: string;
+  /** Secondary line under the headline. */
+  caption: string;
+};
 
-export const OWNER_PROPERTIES: readonly OwnerProperty[] = [
+export const OWNER_STATS: readonly OwnerStatCard[] = [
   {
-    id: "prop-cocody-villa",
-    title: "Villa Cocody Ambassades",
-    transactionType: "sale",
-    status: "active",
-    district: "Cocody",
-    priceCfa: 145000000,
-    bedrooms: 5,
-    areaSqm: 420,
-    isVerified: true,
-    views30d: 1284,
-    updatedAtIso: "2026-10-02T08:30:00.000Z",
-    image: "/images/listings/properties-01.jpg",
-    imageAlt:
-      "Contemporary villa facade in Cocody with a walled garden and mature trees",
+    id: "active",
+    labelKey: "owner.dashboard.stats.activeLabel",
+    kind: "count",
+    icon: "home_work",
+    accent: "primary",
+    chip: "+2 this month",
+    chipIcon: "trending_up",
+    value: 18,
+    unit: "Properties",
+    caption: "14 Rented • 4 Ready for Move-In",
   },
   {
-    id: "prop-plateau-duplex",
-    title: "Duplex Le Magnolia",
-    transactionType: "rent",
-    status: "active",
-    district: "Cocody Danga",
-    priceCfa: 750000,
-    bedrooms: 4,
-    areaSqm: 310,
-    isVerified: true,
-    views30d: 902,
-    updatedAtIso: "2026-10-01T14:10:00.000Z",
-    image: "/images/listings/properties-02.jpg",
-    imageAlt:
-      "Duplex in Cocody Danga with a double-height living room and planted terrace",
+    id: "pending",
+    labelKey: "owner.dashboard.stats.pendingLabel",
+    kind: "count",
+    icon: "verified",
+    accent: "secondary",
+    chip: "Est. clearance 48h",
+    value: 3,
+    unit: "Properties",
+    caption: "In Cadastre & Notarial Inspection",
   },
   {
-    id: "prop-yopougon-studio",
-    title: "Studio Résidence La Baie",
-    transactionType: "flexible_rent",
-    status: "pending_review",
-    district: "Yopougon Niangon",
-    priceCfa: 180000,
-    bedrooms: 1,
-    areaSqm: 42,
-    isVerified: false,
-    views30d: 145,
-    updatedAtIso: "2026-09-28T11:45:00.000Z",
-    image: "/images/listings/properties-03.jpg",
-    imageAlt:
-      "Compact studio apartment in Yopougon with a kitchenette and large window",
+    id: "inquiries",
+    labelKey: "owner.dashboard.stats.inquiriesLabel",
+    kind: "count",
+    icon: "mark_chat_unread",
+    accent: "primary",
+    chip: "+28% vs last week",
+    chipIcon: "arrow_upward",
+    value: 42,
+    unit: "Inquiries",
+    caption: "18 Direct bookings • 24 Physical tours",
   },
   {
-    id: "prop-bietry-penthouse",
-    title: "Penthouse Marina Biétry",
-    transactionType: "sale",
-    status: "locked",
-    district: "Biétry Marina",
-    priceCfa: 210000000,
-    bedrooms: 4,
-    areaSqm: 350,
-    isVerified: true,
-    views30d: 2140,
-    updatedAtIso: "2026-09-20T09:00:00.000Z",
-    image: "/images/listings/rentals-01.jpg",
-    imageAlt:
-      "Penthouse living space at Biétry Marina with floor-to-ceiling lagoon windows",
-  },
-  {
-    id: "prop-marcory-terrace",
-    title: "Appartement Terrasse Marcory",
-    transactionType: "rent",
-    status: "rented",
-    district: "Marcory Zone 4",
-    priceCfa: 520000,
-    bedrooms: 3,
-    areaSqm: 165,
-    isVerified: true,
-    views30d: 640,
-    updatedAtIso: "2026-09-15T16:20:00.000Z",
-    image: "/images/listings/rentals-02.jpg",
-    imageAlt:
-      "Three-bedroom apartment in Marcory with a corner terrace and fitted kitchen",
+    id: "revenue",
+    labelKey: "owner.dashboard.stats.revenueLabel",
+    kind: "money",
+    icon: "account_balance_wallet",
+    accent: "tertiary",
+    chip: "100% Payout Guaranteed",
+    chipIcon: "shield",
+    value: 14850000,
+    unit: "FCFA",
+    caption: "Secured in BCEAO custodial vault",
   },
 ];
 
-export const OWNER_ACTIVITY: readonly OwnerActivity[] = [
+/** Yield chart on the dashboard — the peer months and the peak month label. */
+export const YIELD_SERIES: readonly string[] = [
+  "Nov 2024",
+  "Dec 2024",
+  "Jan 2025",
+  "Feb 2025",
+  "Mar 2025",
+  "Apr 2025",
+];
+
+export const YIELD_PEAK = {
+  month: "April 2025",
+  value: "14.85M FCFA",
+  detail: "88% Occupancy • Peak",
+} as const;
+
+export type OccupancyMetric = {
+  icon: string;
+  tone: string;
+  label: string;
+  value: string;
+};
+
+export const OCCUPANCY_METRICS: readonly OccupancyMetric[] = [
+  { icon: "donut_large", tone: "text-primary", label: "Average Occupancy", value: "91.4%" },
+  { icon: "speed", tone: "text-tertiary", label: "Avg. Time to Lease", value: "6.2 days" },
+  { icon: "fact_check", tone: "text-primary-container", label: "Inquiry Conversion", value: "34% Verified" },
+];
+
+export type RecentInquiry = {
+  id: string;
+  name: string;
+  tier: string;
+  tierIcon: string;
+  property: string;
+  dates: string;
+  status: "funded" | "bailiff";
+  amount: string;
+};
+
+export const RECENT_INQUIRIES: readonly RecentInquiry[] = [
   {
-    id: "act-1",
-    kind: "payment",
-    titleKey: "owner.dashboard.activity.paymentReceived",
-    amountCfa: 750000,
-    occurredAtIso: "2026-10-04T09:15:00.000Z",
+    id: "inq-1",
+    name: "Amara Diallo",
+    tier: "99% Tier 1",
+    tierIcon: "verified",
+    property: "Villa Cocody Ambassades",
+    dates: "May 1, 2025 - Apr 30, 2026",
+    status: "funded",
+    amount: "3.5M FCFA Deposited",
   },
   {
-    id: "act-2",
-    kind: "booking",
-    titleKey: "owner.dashboard.activity.viewingRequested",
-    occurredAtIso: "2026-10-03T15:40:00.000Z",
+    id: "inq-2",
+    name: "Dr. Ibrahim Touré",
+    tier: "98% Tier 1",
+    tierIcon: "verified",
+    property: "Plateau Panoramic Penthouse",
+    dates: "May 15, 2025 (12 Months)",
+    status: "bailiff",
+    amount: "Scheduled for Tomorrow",
   },
   {
-    id: "act-3",
-    kind: "verification",
-    titleKey: "owner.dashboard.activity.submittedForReview",
-    occurredAtIso: "2026-10-01T08:05:00.000Z",
-  },
-  {
-    id: "act-4",
-    kind: "message",
-    titleKey: "owner.dashboard.activity.newMessage",
-    occurredAtIso: "2026-09-29T19:30:00.000Z",
+    id: "inq-3",
+    name: "Sarah Diop",
+    tier: "96% Tier 1",
+    tierIcon: "verified_user",
+    property: "Almadies Sunset Ocean Loft",
+    dates: "June 1, 2025 (Flexible Expat)",
+    status: "funded",
+    amount: "2.2M FCFA Deposited",
   },
 ];
+
+export const LEGAL_COMPLIANCE = {
+  badge: "Certified",
+  heading: "100% Audited Title Deeds",
+  summary:
+    "All 18 properties have registered Land Title (Titre Foncier / ACD) verified by licensed notarial partners in Côte d'Ivoire & Senegal.",
+  complianceLine: "BCEAO Escrow Regulation Compliant",
+  auditLabel: "Next Registry Audit",
+  auditDate: "August 15, 2025",
+} as const;
+
+export type OccupancyClass = {
+  label: string;
+  value: string;
+  detail: string;
+  bar: string;
+  percent: number;
+};
+
+export const OCCUPANCY_CLASSES: readonly OccupancyClass[] = [
+  { label: "Luxury Residential Villas", value: "94% Occupied", detail: "8 of 8 units currently leased", bar: "bg-primary", percent: 94 },
+  { label: "Furnished Executive Suites", value: "88% Occupied", detail: "6 of 7 units currently leased", bar: "bg-surface-tint", percent: 88 },
+  { label: "Coworking & Flex Hubs", value: "92% Occupied", detail: "120 of 130 corporate desks reserved", bar: "bg-tertiary", percent: 92 },
+];
+
+export const QUICK_ACTIONS: readonly { icon: string; label: string }[] = [
+  { icon: "tune", label: "Adjust Seasonal Rates" },
+  { icon: "event_available", label: "Schedule Bailiff Handover" },
+  { icon: "calendar_month", label: "Bulk Update Availability" },
+  { icon: "receipt_long", label: "Generate Landlord Tax Statement" },
+];
+
+export const MARKET_BENCHMARK = {
+  eyebrow: "Market Benchmark",
+  title: "Yield in Abidjan Cocody grew by +12.4% YoY.",
+  body: "Demand for VR-ready apartments with escrow guarantees remains in highest percentile.",
+} as const;

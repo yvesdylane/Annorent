@@ -43,12 +43,17 @@ describe("AppShell", () => {
     expect(main).toHaveTextContent("Dashboard body");
   });
 
-  it("shows the product name from the common namespace", () => {
+  it("shows the product name from the common namespace in the chrome", () => {
     render(
       <AppShell locale="en" items={items}>
         <p>body</p>
       </AppShell>,
     );
-    expect(screen.getByText("Annorent")).toBeVisible();
+    // The name appears in both the sidebar brand block and the fixed header.
+    const matches = screen.getAllByText("Annorent");
+    expect(matches.length).toBeGreaterThanOrEqual(1);
+    for (const match of matches) {
+      expect(match).toBeVisible();
+    }
   });
 });

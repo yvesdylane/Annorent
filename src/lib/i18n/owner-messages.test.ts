@@ -2,11 +2,7 @@ import { describe, expect, it } from "vitest";
 import { locales, t, type Locale } from "@/lib/i18n";
 import { owner } from "@/lib/i18n/messages/owner";
 import { common } from "@/lib/i18n/messages/common";
-import {
-  OWNER_ACTIVITY,
-  OWNER_PROPERTIES,
-  OWNER_STATS,
-} from "@/lib/owner/dashboard";
+import { OWNER_STATS } from "@/lib/owner/dashboard";
 
 /** The only locale the owner surface ships its own copy for. */
 const shipped: Locale[] = ["en"];
@@ -15,12 +11,7 @@ const shipped: Locale[] = ["en"];
  * Every key the owner data can ask for, derived rather than hand-listed, so a
  * new record added to `lib/owner/dashboard` is covered automatically.
  */
-const derivedKeys = [
-  ...OWNER_STATS.map((stat) => stat.labelKey),
-  ...OWNER_ACTIVITY.map((item) => item.titleKey),
-  ...OWNER_PROPERTIES.map((property) => `owner.status.${property.status}`),
-  ...OWNER_PROPERTIES.map((property) => `owner.transaction.${property.transactionType}`),
-];
+const derivedKeys = OWNER_STATS.map((stat) => stat.labelKey);
 
 describe("owner i18n namespace", () => {
   it.each(shipped)("resolves every data-derived owner key in %s", (locale) => {
@@ -33,29 +24,14 @@ describe("owner i18n namespace", () => {
     const staticKeys = [
       "owner.nav.dashboard",
       "owner.nav.properties",
+      "owner.nav.addProperty",
       "owner.nav.rentals",
       "owner.nav.messages",
       "owner.nav.payments",
+      "owner.nav.documents",
       "owner.nav.profile",
       "owner.dashboard.title",
-      "owner.dashboard.greeting",
       "owner.dashboard.subtitle",
-      "owner.dashboard.stats.active",
-      "owner.dashboard.stats.pending",
-      "owner.dashboard.stats.occupancy",
-      "owner.dashboard.stats.revenue",
-      "owner.dashboard.activity.title",
-      "owner.dashboard.listings.title",
-      "owner.dashboard.listings.empty",
-      "owner.dashboard.listings.column.property",
-      "owner.dashboard.listings.column.price",
-      "owner.dashboard.listings.column.status",
-      "owner.dashboard.listings.column.views",
-      "owner.dashboard.listings.column.updated",
-      "owner.dashboard.actions.addProperty",
-      "owner.dashboard.actions.addRental",
-      "owner.dashboard.actions.viewAll",
-      "owner.stats.percent",
     ];
     for (const locale of shipped) {
       for (const key of staticKeys) {

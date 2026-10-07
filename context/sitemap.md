@@ -96,7 +96,7 @@ just the code layer:
 | Auth: login, register, register/owner, register/hotel | **Built** from Stitch screen `414cc749887a4a6fbe5acfcba6b7cfbf` ("Sign In & Registration - Annorent") — one split-screen shell (form card left, trust panel right) serving all four routes, with the reference's `Sign In` / `Create Account` / `Pro & Hospitality` tabs. |
 | Auth: forgot-password, reset-password, verify-email | **Built by derivation** — no Stitch screen exists for these; they reuse the same `AuthShell` with the account tabs hidden. See "Deriving the undesigned auth routes" below. |
 | Public/marketing (remaining routes above) | Fully prompted in `annorent-stitch-prompts.md` |
-| Owner `/owner` dashboard | **Built by derivation** — no Stitch screen was reachable for it; composition follows the established dashboard pattern (stat row → listings table → activity feed → role sidebar). |
+| Owner `/owner` | **Built** from Stitch screens — Dashboard (`eca75c50e18d459a8e481be97ffed41c`: stat row, revenue-yield chart, occupancy + quick actions), Listings (`172418195d3e4113871ddd79608a9206`), Availability & Calendar (`b1c2ecfba9f742819c17b2ae0e06e3f5`), Add Property wizard (`73ff8c67741d4e7a8cc3f446bc9e91ec`). The `/owner/documents` vault is **built by derivation** (empty state + feature cards) with no reachable screen. The whole section mounts inside the role chrome (`app-shell` + `role-sidebar`) shared with tenant/hotel-admin drafts. |
 | Tenant, Hotel Owner, Admin sections | **Not yet designed** — next Stitch pass after public/marketing ships |
 
 **Inert controls on the four browse pages.** Every filter, sort, chip, chip-removal,

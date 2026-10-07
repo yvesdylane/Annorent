@@ -1,6 +1,6 @@
 import { t, type Locale } from "@/lib/i18n";
 import type { NavItem } from "@/components/layout/role-sidebar";
-import { OWNER_PROPERTIES } from "@/lib/owner/dashboard";
+import { OWNER_LISTINGS } from "@/lib/owner/listings";
 
 /**
  * Owner sidebar navigation.
@@ -9,14 +9,19 @@ import { OWNER_PROPERTIES } from "@/lib/owner/dashboard";
  * with the rest of the owner's data so `AppShell` — which is shared across all
  * four roles — stays role-agnostic and hardcodes no labels of its own.
  *
- * The `properties` badge shows how many listings are awaiting review, since that
- * is the one number an owner needs to act on and it is the natural driver for the
- * most likely next click. Hrefs point at routes that are still 0-byte scaffolds.
+ * Mirrors the owner portal reference's 8-entry sidebar (Dashboard, My Listings,
+ * Add Property, Availability & Calendar, Inquiries & Tenants, Payouts & Escrow,
+ * Documents & Cadastre, Settings). Hrefs are chosen from the approved mapping:
+ * My Listings -> `/properties`, Availability & Calendar -> `/rentals`, Settings
+ * -> `/profile`, and Documents & Cadastre -> the new `/documents` route.
+ *
+ * The `properties` badge counts listings awaiting notary review — the one number
+ * an owner must act on, and the natural driver for the most likely next click.
  */
 
 export function ownerNav(locale: Locale): NavItem[] {
-  const pending = OWNER_PROPERTIES.filter(
-    (property) => property.status === "pending_review",
+  const pending = OWNER_LISTINGS.filter(
+    (listing) => listing.status === "pending",
   ).length;
 
   return [
@@ -32,9 +37,14 @@ export function ownerNav(locale: Locale): NavItem[] {
       badgeCount: pending,
     },
     {
+      href: `/${locale}/owner/properties/new`,
+      label: t(locale, "owner", "owner.nav.addProperty"),
+      icon: "add_circle",
+    },
+    {
       href: `/${locale}/owner/rentals`,
       label: t(locale, "owner", "owner.nav.rentals"),
-      icon: "desk",
+      icon: "calendar_month",
     },
     {
       href: `/${locale}/owner/messages`,
@@ -44,12 +54,17 @@ export function ownerNav(locale: Locale): NavItem[] {
     {
       href: `/${locale}/owner/payments`,
       label: t(locale, "owner", "owner.nav.payments"),
-      icon: "payments",
+      icon: "account_balance",
+    },
+    {
+      href: `/${locale}/owner/documents`,
+      label: t(locale, "owner", "owner.nav.documents"),
+      icon: "verified_user",
     },
     {
       href: `/${locale}/owner/profile`,
       label: t(locale, "owner", "owner.nav.profile"),
-      icon: "person",
+      icon: "settings",
     },
   ];
 }

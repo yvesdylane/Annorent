@@ -1,7 +1,7 @@
 /**
  * Marketing surface copy.
  *
- * English and French only so far — Portuguese, Arabic, and Swahili are
+ * English and French only so far — Portuguese and Swahili are
  * required by `context/ui-context.md` (F11) and are added as the remaining
  * locales land. `t()` falls back to English per-key, so a missing translation
  * degrades to readable copy rather than a raw key.

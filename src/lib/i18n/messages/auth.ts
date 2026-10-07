@@ -5,7 +5,7 @@
  * hotel) plus the three recovery routes, which have no Stitch design and are
  * derived from the same visual language — see `context/sitemap.md`.
  *
- * English and French only so far. Portuguese, Arabic, and Swahili are required
+ * English and French only so far. Portuguese and Swahili are required
  * by `context/ui-context.md` (F11) and are added as the remaining locales land.
  * `t()` falls back to English per key, so a missing translation degrades to
  * readable copy rather than a raw key.

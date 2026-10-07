@@ -40,28 +40,24 @@ corners (8–12px), soft shadows, generous whitespace. Desktop-first, fully resp
 
 ## Internationalization & layout
 
-F11 requires English, French, Portuguese, Arabic, and Swahili. **Arabic requires RTL
-layout support** — this affects more than string translation:
+F11 is currently scoped to English, French, Portuguese, and Swahili (all LTR).
+Arabic was dropped from the shipped set so no RTL locale exists yet; when an
+RTL locale is added, it still affects more than string translation:
 - Use logical CSS properties (`margin-inline-start` not `margin-left`) wherever
   layout direction matters, from day one, not retrofitted later.
 - Icons implying direction (arrows, chevrons) must flip in RTL.
 - Test every new layout in at least one RTL locale before merging, not just at
-  translation-review time. The owner dashboard is verified this way: `/ar/owner`
-  renders `dir="rtl"`, the sidebar sits on the right via `border-inline-end`, and
-  `/en/owner` + `/fr/owner` render `dir="ltr"` with the sidebar on the left.
+  translation-review time.
 - **Missing translations fall back per key, not per namespace.** `t()` returns
   English when a key is absent for the requested locale, so a half-translated
   namespace degrades to readable copy instead of showing raw keys.
 - **The owner surface ships English-only by decision.** `messages/owner.ts` and
   `messages/common.ts` carry an `en` table and nothing else, so `/fr`, `/pt`,
-  `/ar`, and `/sw` all render English. This is a temporary call, not a rejection
-  of F11: a half-finished translation reads worse than an honest English screen.
-  F11's five locales are still owed — add a sibling locale table when the copy is
-  actually translated, and update the same commit. `owner-messages.test.ts`
-  asserts no second table exists yet, so it cannot drift silently.
-- **Copy language and layout direction are independent.** `/ar/owner` shows
-  English copy *and* a mirrored RTL shell, because mirroring is what F11 asks
-  for while the copy is still English. Do not "fix" one by flattening the other.
+  and `/sw` all render English. This is a temporary call, not a rejection of
+  F11: a half-finished translation reads worse than an honest English screen.
+  F11's four locales are still owed — add a sibling locale table when the copy
+  is actually translated, and update the same commit. `owner-messages.test.ts`
+  asserts the owner table has no extra locales yet, so it cannot drift silently.
 
 ## Admin tone is different on purpose
 

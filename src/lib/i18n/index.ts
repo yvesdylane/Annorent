@@ -15,14 +15,17 @@ import { common, type CommonKey } from "./messages/common";
 import { marketing, type MarketingKey } from "./messages/marketing";
 import { owner, type OwnerKey } from "./messages/owner";
 
-export const locales = ["en", "fr", "pt", "ar", "sw"] as const;
+export const locales = ["en", "fr", "pt", "sw"] as const;
 
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "en";
 
-/** Locales that require a right-to-left layout (ui-context.md, F11). */
-export const rtlLocales: readonly Locale[] = ["ar"];
+/**
+ * Locales that require a right-to-left layout (ui-context.md, F11).
+ * Empty for now: no RTL locale is shipped. Logged when one is added.
+ */
+export const rtlLocales: readonly Locale[] = [];
 
 export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
@@ -37,7 +40,6 @@ export const localeTags: Record<Locale, string> = {
   en: "en",
   fr: "fr",
   pt: "pt",
-  ar: "ar",
   sw: "sw",
 };
 
@@ -46,7 +48,6 @@ export const localeLabels: Record<Locale, string> = {
   en: "English",
   fr: "Français",
   pt: "Português",
-  ar: "العربية",
   sw: "Kiswahili",
 };
 

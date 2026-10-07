@@ -1,10 +1,10 @@
 /**
  * Property-owner surface copy.
  *
- * English only, deliberately. `context/ui-context.md` F11 requires fr/pt/ar/sw
+ * English only, deliberately. `context/ui-context.md` F11 requires fr/pt/sw
  * eventually, but the owner surface ships as a single-language table for now so
  * no locale shows a half-finished translation. `t()` falls back per key, so
- * every locale — fr, pt, ar, sw — renders exactly these English strings until
+ * every locale — fr, pt, sw — renders exactly these English strings until
  * its own table is added.
  *
  * When a translation does land, add a sibling `<locale>` table here rather than
@@ -18,16 +18,23 @@
 export const owner = {
   en: {
     "owner.nav.dashboard": "Dashboard",
-    "owner.nav.properties": "Properties",
-    "owner.nav.rentals": "Rentals",
-    "owner.nav.messages": "Messages",
-    "owner.nav.payments": "Payments",
-    "owner.nav.profile": "Profile",
+    "owner.nav.properties": "My Listings",
+    "owner.nav.addProperty": "Add Property",
+    "owner.nav.rentals": "Availability & Calendar",
+    "owner.nav.messages": "Inquiries & Tenants",
+    "owner.nav.payments": "Payouts & Escrow",
+    "owner.nav.documents": "Documents & Cadastre",
+    "owner.nav.profile": "Settings",
 
-    "owner.dashboard.title": "Owner dashboard",
+    "owner.dashboard.title": "Owner Overview & Portfolio Performance",
     "owner.dashboard.greeting": "Welcome back",
     "owner.dashboard.subtitle":
-      "Your listings, occupancy, and escrow payouts across Abidjan.",
+      "Track your verified properties, rental inquiries, escrow settlements, and occupancy rates across West Africa.",
+
+    "owner.dashboard.stats.activeLabel": "Active listings",
+    "owner.dashboard.stats.pendingLabel": "Pending verifications",
+    "owner.dashboard.stats.inquiriesLabel": "Inquiries this week",
+    "owner.dashboard.stats.revenueLabel": "Escrow net revenue (MTD)",
 
     "owner.dashboard.stats.active": "Active listings",
     "owner.dashboard.stats.pending": "Awaiting review",
